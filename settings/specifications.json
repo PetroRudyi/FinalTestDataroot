@@ -1,0 +1,123 @@
+{
+    "description":{
+        "X": [
+            "Date",
+            "Location",
+            "MinTemp",
+            "MaxTemp",
+            "Rainfall",
+            "Evaporation",
+            "Sunshine",
+            "WindGustDir",
+            "WindGustSpeed",
+            "WindDir9am",
+            "WindDir3pm",
+            "WindSpeed9am",
+            "WindSpeed3pm",
+            "Humidity9am",
+            "Humidity3pm",
+            "Pressure9am",
+            "Pressure3pm",
+            "Cloud9am",
+            "Cloud3pm",
+            "Temp9am",
+            "Temp3pm",
+            "RainToday"
+        ],
+        "final_columns":[
+                    "MaxTemp",
+                    "Rainfall",
+                    "WindGustSpeed",
+                    "Humidity9am",
+                    "Humidity3pm",
+                    "Pressure9am",
+                    "Pressure3pm",
+                    "Temp3pm",
+                    "RainToday",
+                    "Date_year",
+                    "Date_month",
+                    "Date_day",
+                    "Date_weekday"
+                ],
+        "y":"RainTomorrow",
+        "metrics":"accuracy_score"
+    },
+    "operations":[
+        {
+            "operation_number": 1,
+            "operation_name": "drop_columns",
+            "params": {
+                "in_columns": ["Evaporation", "Sunshine", "Cloud9am", "Cloud3pm", "Location", "MinTemp", "WindGustDir",
+                     "WindDir9am", "WindDir3pm", "WindSpeed9am", "WindSpeed3pm", "Temp9am"]
+            }
+        },
+        {
+            "operation_number":2,
+            "operation_name": "fill_nans",
+            "params":{
+                "in_columns":["MaxTemp",
+                    "WindGustSpeed",
+                    "Humidity9am",
+                    "Humidity3pm",
+                    "Pressure9am",
+                    "Pressure3pm",
+                    "Temp3pm",
+                    "Rainfall",
+                    "RainToday"
+                ],
+                "methods":[
+                    "mean",
+                    "mean",
+                    "mean",
+                    "mean",
+                    "mean",
+                    "mean",
+                    "mean",
+                    "mean",
+                    "mode"
+                ]
+            }
+        },
+        {
+            "operation_number":3,
+            "operation_name":"encode_labels",
+            "params":{
+                "in_columns":[
+                    "RainToday"
+                ]
+            }
+        },
+        {
+            "operation_number":4,
+            "operation_name":"process_dates",
+            "params":{
+                "in_columns":[
+                    "Date"
+                ],
+                "date_formats":[
+                    "%Y-%m-%d"
+                ]
+            }
+        },
+        {
+            "operation_number":5,
+            "operation_name":"normalize",
+            "params":{
+                "in_columns":["Rainfall", "RainToday",
+                             "MaxTemp", "WindGustSpeed", "Humidity9am",
+                             "Humidity3pm", "Pressure9am", "Pressure3pm", "Temp3pm",
+                             "Date_year", "Date_month", "Date_weekday", "Date_day"
+                ]
+            }
+        },
+        {
+            "operation_number":6,
+            "operation_name":"drop_columns",
+            "params":{
+                "in_columns": [
+                    "Date"
+                ]
+            }
+        }
+    ]
+}
